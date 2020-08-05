@@ -6,6 +6,4 @@ public interface MainMenuUser {
     void runSubMenuUser();
     void runSubMenuProductUser();
     void Payment();
-//    void addOrder();
-//    void ShowOrder();
 }
