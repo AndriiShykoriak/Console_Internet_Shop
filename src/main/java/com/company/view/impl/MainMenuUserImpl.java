@@ -1,7 +1,6 @@
 package com.company.view.impl;
 
-import com.company.order.service.OrderService;
-import com.company.order.service.impl.OrderServiceImpl;
+import com.company.order.view.impl.OrderViewImpl;
 import com.company.product.model.enums.Category;
 import com.company.product.service.ProductService;
 import com.company.product.service.impl.ProductServiceImpl;
@@ -12,13 +11,12 @@ import static com.company.config.Scanner.ReadString;
 
 public class MainMenuUserImpl implements MainMenuUser {
     ProductService productService = new ProductServiceImpl();
-//    OrderService orderService = (OrderService) new OrderServiceImpl();
     private final String[] menu = {
             "1. Show available products.",
             "2. Search categories.",
             "3. Add items to order.",
             "4. Show my order.",
-            "4. Check-out.",
+            "5. Check-out.",
             "0. Back.",
             "15. AuthorizationMenu",
     };
@@ -38,10 +36,22 @@ public class MainMenuUserImpl implements MainMenuUser {
         while (true) {
             switch (ReadString()) {
                 case "1" -> runSubMenuProductUser();
-                case "2" -> runSubMenuUser();
-//                case "3" -> addOrder();
-//                case "4" -> ShowOrder();
-                case "5" -> Payment();
+                case "2" -> {
+                    runSubMenuUser();
+                    runMenuMainUser();
+                }
+                case "3" -> {
+                    new OrderViewImpl().addOrder();
+                    runMenuMainUser();
+                }
+                case "4" -> {
+                    new OrderViewImpl().ShowOrder();
+                    runMenuMainUser();
+                }
+                case "5" -> {
+                    Payment();
+                    runMenuMainUser();
+                }
                 case "0" -> runMenuMainUser();
                 case "15" -> {
                     break loop;
@@ -68,7 +78,7 @@ public class MainMenuUserImpl implements MainMenuUser {
     public void checkCategories() {
         System.out.println("Please chose the product category: ");
         System.out.println(
-                "1. Mobile\n" +
+                        "    1. Mobile\n" +
                         "    2. Tablets\n" +
                         "    3. Computer peripherals\n" +
                         "    4. Audio & Video\n" +
@@ -78,33 +88,23 @@ public class MainMenuUserImpl implements MainMenuUser {
                         "    8. TABLET_ACCESSORY\n" +
                         "    9. CAMERA\n" +
                         "    10. GAMING\n" +
-                        "    11. OTHER\n");
+                        "    11. OTHER\n" +
+                        "    0.  Back\n");
 
         int dec = Integer.parseInt(ReadString());
-
-        if (dec == 1) {
-            productService.printByCategory(Category.MOBILE);
-        } else if (dec == 2) {
-            productService.printByCategory(Category.TABLETS);
-        } else if (dec == 3) {
-            productService.printByCategory(Category.COMPUTER_PERIPHERAL);
-        } else if (dec == 4) {
-            productService.printByCategory(Category.AUDIO_VIDEO);
-        } else if (dec == 5) {
-            productService.printByCategory(Category.TELEVISION);
-        } else if (dec == 6) {
-            productService.printByCategory(Category.LAPTOPS);
-        } else if (dec == 7) {
-            productService.printByCategory(Category.MOBILE_ACCESSORY);
-        } else if (dec == 8) {
-            productService.printByCategory(Category.TABLET_ACCESSORY);
-        } else if (dec == 9) {
-            productService.printByCategory(Category.CAMERA);
-        } else if (dec == 10) {
-            productService.printByCategory(Category.GAMING);
-        } else if (dec == 11) {
-            productService.printByCategory(Category.OTHER);
-        }
+            switch (dec) {
+                case 1 -> productService.printByCategory(Category.MOBILE);
+                case 2 -> productService.printByCategory(Category.TABLETS);
+                case 3 -> productService.printByCategory(Category.COMPUTER_PERIPHERAL);
+                case 4 -> productService.printByCategory(Category.AUDIO_VIDEO);
+                case 5 -> productService.printByCategory(Category.TELEVISION);
+                case 6 -> productService.printByCategory(Category.LAPTOPS);
+                case 7 -> productService.printByCategory(Category.MOBILE_ACCESSORY);
+                case 8 -> productService.printByCategory(Category.TABLET_ACCESSORY);
+                case 9 -> productService.printByCategory(Category.CAMERA);
+                case 10 -> productService.printByCategory(Category.GAMING);
+                case 11 -> productService.printByCategory(Category.OTHER);
+            }
     }
 
     @Override
@@ -119,15 +119,4 @@ public class MainMenuUserImpl implements MainMenuUser {
             System.out.println("Sorry we don't currently accept cash, please use card");
         }
     }
-
-//    @Override
-//    public void addOrder() {
-//        Order order = new Order();
-//        orderService.createOrder(order);
-//    }
-//
-//    @Override
-//    public void ShowOrder() {
-//        orderService.findAllOrder().forEach(x->System.out.println(x));
-//    }
 }
