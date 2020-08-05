@@ -3,13 +3,11 @@ package com.company.order.service.impl;
 import com.company.order.dao.OrderDao;
 import com.company.order.dao.impl.OrderDaoImpl;
 import com.company.order.model.Order;
-import com.company.product.model.Product;
-import com.company.user.model.User;
+import com.company.order.service.OrderService;
 
-import java.util.HashMap;
 import java.util.List;
 
-public class OrderServiceImpl implements OrderDao {
+public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao = new OrderDaoImpl();
 
     @Override
@@ -30,10 +28,5 @@ public class OrderServiceImpl implements OrderDao {
     @Override
     public List<Order> findAllOrder() {
         return orderDao.findAllOrder();
-    }
-
-    @Override
-    public HashMap<User, List<Product>> findById(int id) {
-        return orderDao.findById(id);
     }
 }
