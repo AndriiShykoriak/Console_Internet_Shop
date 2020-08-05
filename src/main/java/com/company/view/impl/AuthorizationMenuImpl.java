@@ -34,8 +34,7 @@ public class AuthorizationMenuImpl implements AuthorizationMenu {
     @Override
     public void login() {
         System.out.print("Enter login: ");
-        User user = userService.findByLogin(ReadString());
-        if (user.getRights().equals(Rights.ADMIN)) {
+        if (currentUser().getRights().equals(Rights.ADMIN)) {
             password();
             new MainMenuAdminImpl().runMenuMainAdmin();
         } else {
@@ -47,12 +46,15 @@ public class AuthorizationMenuImpl implements AuthorizationMenu {
     @Override
     public void password() {
         System.out.print("Password:    ");
-
         User user = userService.findByPassword(ReadString());
         if (user.getPassword() != null) {
             System.out.println("login:" + user);
         } else {
             System.out.println("password error");
         }
+    }
+    public User currentUser(){
+        User currentUser = userService.findByLogin(ReadString());
+        return currentUser;
     }
 }
